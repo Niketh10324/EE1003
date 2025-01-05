@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.8.21)  5 JAN 2025 14:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.9.3)  5 JAN 2025 18:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1911,15 +1911,16 @@ Underfull \vbox (badness 2837) has occurred while \output is active []
 -dist/fonts/enc/dvips/base/8r.enc}
 
 ]
-</home/harsha/EE1003/Assignment-1/figs/comparison_plot.pdf, id=44, 722.7pt x 43
-3.62pt>
-File: /home/harsha/EE1003/Assignment-1/figs/comparison_plot.pdf Graphic file (t
-ype pdf)
-<use /home/harsha/EE1003/Assignment-1/figs/comparison_plot.pdf>
-Package pdftex.def Info: /home/harsha/EE1003/Assignment-1/figs/comparison_plot.
-pdf  used on input line 117.
+</home/suraj5323/Desktop/EE1003/Assignment-1/figs/plot_solution.pdf, id=51, 722
+.7pt x 433.62pt>
+File: /home/suraj5323/Desktop/EE1003/Assignment-1/figs/plot_solution.pdf Graphi
+c file (type pdf)
+<use /home/suraj5323/Desktop/EE1003/Assignment-1/figs/plot_solution.pdf>
+Package pdftex.def Info: /home/suraj5323/Desktop/EE1003/Assignment-1/figs/plot_
+solution.pdf  used on input line 121.
 (pdftex.def)             Requested size: 364.1953pt x 218.51653pt.
- [2 </home/harsha/EE1003/Assignment-1/figs/comparison_plot.pdf>] (./main.aux)
+ [2 </home/suraj5323/Desktop/EE1003/Assignment-1/figs/plot_solution.pdf>] (./ma
+in.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2020/03/25>
@@ -1928,12 +1929,12 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 52920 strings out of 474222
- 1254193 string characters out of 5748733
- 1940975 words of memory out of 5000000
- 74366 multiletter control sequences out of 15000+600000
+ 52933 strings out of 476106
+ 1254414 string characters out of 5793934
+ 1942975 words of memory out of 5000000
+ 74122 multiletter control sequences out of 15000+600000
  623283 words of font info for 169 fonts, out of 8000000 for 9000
- 1144 hyphenation exceptions out of 8191
+ 62 hyphenation exceptions out of 8191
  109i,11n,109p,1194b,902s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/public/txfonts/rtxmi.pfb></usr/shar
@@ -1942,10 +1943,10 @@ xmf-dist/fonts/type1/public/txfonts/txex.pfb></usr/share/texlive/texmf-dist/fon
 ts/type1/public/txfonts/txsy.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw
 /times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.p
 fb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (2 pages, 71726 bytes).
+Output written on main.pdf (2 pages, 69511 bytes).
 PDF statistics:
- 118 PDF objects out of 1000 (max. 8388607)
- 54 compressed objects within 1 object stream
- 4 named destinations out of 1000 (max. 500000)
+ 125 PDF objects out of 1000 (max. 8388607)
+ 70 compressed objects within 1 object stream
+ 17 named destinations out of 1000 (max. 500000)
  114 words of extra memory for PDF output out of 10000 (max. 10000000)
 
