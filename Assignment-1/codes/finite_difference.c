@@ -1,62 +1,59 @@
 #include <stdio.h>
+#include <math.h>
 #include <stdlib.h>
 
-// Define a structure to hold the x and y values
-typedef struct {
-    double x;
-    double y;
-} DataPoint;
+// dy/dx calculation
+float dy_dx(float x, float y) {
+    float numerator = 2*(y+3);
+    float denominator = x+4;
 
-// Global variables to store data
-DataPoint *data = NULL;
-int data_size = 0;
-
-// Function to compute finite differences and store results
-void finite_difference(double x0, double y0, double x_end, double h) {
-    int capacity = 100;  // Initial capacity
-    data = malloc(capacity * sizeof(DataPoint));
-    if (data == NULL) {
-        printf("Memory allocation failed!\n");
-        return;
+    // Denominator should not be zero
+    if (fabs(denominator) < 1e-6) {
+        return 0.0;
     }
+    return numerator / denominator;
+}
 
-    double x = x0, y = y0;
-    data_size = 0;
+// Calculate points and load onto arrays
+void points(float x_0, float y_0, float x_end, float h, float *x_points, float *y_points, int steps) {
+    float x_n = x_0;
+    float y_n = y_0;
 
-    while (x <= x_end) {
-        if (data_size >= capacity) {
-            capacity *= 2;
-            data = realloc(data, capacity * sizeof(DataPoint));
-            if (data == NULL) {
-                printf("Memory reallocation failed!\n");
-                return;
-            }
-        }
-        data[data_size].x = x;
-        data[data_size].y = y;
-        data_size++;
+    for (int i = 0; i < steps; i++) {
+        x_points[i] = x_n;
+        y_points[i] = y_n;
 
-        y += h * (2 * (y + 3) / (x + 4));  // Update y using finite differences
-        x += h;                           // Increment x by step size h
+        float x_n1 = x_n + h;
+        float y_n1 = y_n + h * dy_dx(x_n, y_n);
+
+        x_n = x_n1;
+        y_n = y_n1;
     }
 }
 
-// Function to get the size of the stored data
-int get_data_size() {
-    return data_size;
-}
+// Main function
+int main() {
+    float x_0 = -2.0; //given condition of x
+    float y_0 = 1.0; //given condition of y
+    float x_end = 3.0;
+    float step_size = 0.01;
+    int steps = (int)((x_end - x_0) / step_size) + 1;
 
-// Function to get the data array
-const DataPoint *get_data() {
-    return data;
-}
+    // Allocate memory for arrays to store points
+    float *x_points = (float *)malloc(steps * sizeof(float));
+    float *y_points = (float *)malloc(steps * sizeof(float));
 
-// Cleanup function to free allocated memory
-void cleanup() {
-    if (data != NULL) {
-        free(data);
-        data = NULL;
+    if (x_points == NULL || y_points == NULL) {
+        printf("Memory allocation failed.\n");
+        return 1;
     }
-    data_size = 0;
-}
 
+    // function call
+    points(x_0, y_0, x_end, step_size, x_points, y_points, steps);
+
+    // Free the memory
+    free(x_points);
+    free(y_points);
+
+    return 0;
+}
