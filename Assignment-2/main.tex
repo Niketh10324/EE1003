@@ -106,32 +106,24 @@ Here, the vector $\vec{y_n}$ is not to be confused with $y_k$ which is the $\bra
 \newline
 The given differential equation can be represented as,
 \begin{align}
-    \brak{y^{\prime}}^4 + 3yy^{\prime\prime} = 0\\
-    y^{\prime\prime} = -\frac{\brak{y^{\prime}}^4}{3y}
+    xy^{\prime\prime} +2y^{\prime} +x^2 -xy-2=0\\
+    y^{\prime\prime} = \frac{xy-x^2+2-2y^{\prime}}{x}
 \end{align}
 Here $m = 2$, thus,
 \begin{align}
-    y_3 &= y^{\prime\prime} = -\frac{\brak{y^{\prime}}^4}{3y} = -\frac{\brak{{y_2}^4}}{3y_1}\\
-    \myvec{y_1^{\prime}\\y_2^{\prime}} &= \myvec{y_2\\-\frac{\brak{y^{\prime}}^4}{3y}}\\
-    \myvec{y_{1, n + 1}\\y_{2, n + 1}} &= \myvec{y_{1, n}\\y_{2, n}} + h\myvec{y_{2, n}\\-\frac{\brak{y_{2, n}}^4}{3y_{1, n}}}\\
-    \vec{y_{n + 1}} = \myvec{1 & h\\0 & 1 -\frac{\brak{y_{2, n}}^3}{3y_{1, n}}} \vec{y_n}
+    y_3 &= y^{\prime\prime} = \frac{xy-x^2+2-2y^{\prime}}{x} = \frac{xy_1-x^2+2-2y_2}{x}\\
 \end{align}
-
+\begin{align}
+    \myvec{y_1^{\prime}\\y_2^{\prime}} &= \myvec{y_2\\\frac{xy-x^2+2-2y^{\prime}}{x}}\\
+    \myvec{y_{1, n + 1}\\y_{2, n + 1}} &= \myvec{y_{1, n}\\y_{2, n}} + h\myvec{y_{2, n}\\\frac{xy_{1,n}-x^2+2-2y_{2,n}}{x}}   
+\end{align}
+\begin{align}
+    \vec{y_{n + 1}} = \myvec{1 & h\\0 & 1 +\frac{xy_{1,n}-x^2+2-2y_{2,n}}{x}} \vec{y_n}
+\end{align}
 Iteratively plotting the above system taking initial conditions as 
 \begin{align}
-    x_0 = 0 \text{ , } y_{1, 0} = 0.01 \text{ , } y_{2, 0} = 1
+    x_0=0.1 \\ y_{1,0}=1 \\ y_{2,0}=0
 \end{align}
-we get the following plot.
+We get the following plot.
 
-\begin{figure}[h!]
-   \centering
-   \includegraphics[width=0.7\columnwidth]{figs/graph.png}
-   \caption{Computational solution for $\brak{y^{\prime}}^4 + 3yy^{\prime\prime} = 0$}
-   \label{label}
-\end{figure}
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=\columnwidth]{/home/niketh/EE1003/Assignment-1/figs/fig1.png}
-    \caption{}
-\end{figure}
 \end{document}
