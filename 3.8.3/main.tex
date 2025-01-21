@@ -1,0 +1,120 @@
+\let\negmedspace\undefined
+\let\negthickspace\undefined
+\documentclass[journal]{IEEEtran}
+\usepackage[a5paper, margin=10mm, onecolumn]{geometry}
+\usepackage{lmodern} % Ensure lmodern is loaded for pdflatex
+\usepackage{tfrupee} % Include tfrupee package
+
+\setlength{\headheight}{1cm} % Set the height of the header box
+\setlength{\headsep}{0mm}     % Set the distance between the header box and the top of the text
+
+\usepackage{gvv-book}
+\usepackage{gvv}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{txfonts}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{gensymb}
+\usepackage{comment}
+\usepackage[breaklinks=true]{hyperref}
+\usepackage{tkz-euclide} 
+\usepackage{listings}                                      
+\def\inputGnumericTable{}                                 
+\usepackage[latin1]{inputenc}                                
+\usepackage{color}                                            
+\usepackage{array}                                            
+\usepackage{longtable}
+\usepackage{multicol}
+\usepackage{calc}                                             
+\usepackage{multirow}                                         
+\usepackage{hhline}                                           
+\usepackage{ifthen}                                           
+\usepackage{lscape}
+\begin{document}
+	
+	\bibliographystyle{IEEEtran}
+	\vspace{3cm}
+	
+	\title{11.16.3.8.3}
+	\author{EE24BTECH11047 - Niketh Prakash Achanta }
+	{\let\newpage\relax\maketitle}
+	
+	\renewcommand{\thefigure}{\theenumi}
+	\renewcommand{\thetable}{\theenumi}
+	\setlength{\intextsep}{10pt} % Space between text and floats
+	
+	
+	\numberwithin{equation}{enumi}
+	\numberwithin{figure}{enumi}
+	\renewcommand{\thetable}{\theenumi}
+	
+	
+\textbf{Question}:\\
+Three coins are tossed once. Find the probability of getting at least 2 heads. \\
+\textbf{Solution: }\\
+\textbf{Computational solution: }\\
+
+\section*{Introduction}
+This document explains the computational process of determining the probability distribution of obtaining at least 2 heads when three coins are tossed. The implementation involves two components:
+\begin{itemize}
+    \item A \textbf{C program} to perform the simulation, calculate the probabilities (PMF), and the cumulative distribution function (CDF).
+    \item A \textbf{Python} script to use the results from the C program and generate a plot of the probability.
+\end{itemize}
+
+\section*{Definitions}
+Let the random variable \( X \) represent the number of heads when three coins are tossed. The possible values of \( X \) are:
+\[
+X \in \{0, 1, 2, 3\}.
+\]
+We are interested in the probability:
+\[
+P(X \geq 2) = P(X = 2) + P(X = 3).
+\]
+
+\section*{C Program Implementation}
+The C program performs the following steps:
+\begin{enumerate}
+    \item Simulate \( n \) trials of tossing three coins using the \texttt{rand()} function to generate random outcomes (head or tail).
+    \item Count the occurrences of 2 and 3 heads across all trials.
+    \item Compute the probability:
+    \[
+    P(X \geq 2) = \frac{\text{Number of occurrences of 2 or 3 heads}}{n}.
+    \]
+\end{enumerate}
+
+\section*{Python Script Implementation}
+The Python script:
+\begin{enumerate}
+    \item Loads the shared object file (\texttt{.so}) created by the C program.
+    \item Calls the \texttt{calculate\_probabilities} function in the C program, passing the number of trials (\( n \)) and retrieving the PMF.
+    \item Plots the PMF as a stem plot, showing the probabilities for each outcome (0, 1, 2, and 3 heads).
+\end{enumerate}
+
+\section*{Visualization}
+The Python script generates a stem plot of the PMF, illustrating the probabilities for each outcome:
+\[
+P(X = 0), P(X = 1), P(X = 2), P(X = 3).
+\]
+
+\section*{Conclusion}
+The probability of getting at least 2 heads is computed as:
+\[
+P(X \geq 2) = P(X = 2) + P(X = 3).
+\]
+This computational process combines the efficiency of C for numerical simulation and the versatility of Python for visualization.
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=\columnwidth]{/home/niketh/EE1003/3.8.3/figs/Figure_1.png}
+		\caption{Probability distribution of the number of heads when three coins are tossed}
+		\label{stemplot}
+	\end{figure}
+	
+\end{document}
+
