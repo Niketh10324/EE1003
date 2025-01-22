@@ -6,25 +6,21 @@ import matplotlib.pyplot as plt
 coin_toss = ctypes.CDLL('./main.so')
 
 # Set argument and return types for the C function
-coin_toss.calculate_probabilities.argtypes = [
-    ctypes.c_int,                   # int n (number of trials)
-    ctypes.POINTER(ctypes.c_double), # double* probabilities
-    ctypes.POINTER(ctypes.c_double), # double* cdf
-    ctypes.POINTER(ctypes.c_double)  # double* prob_at_least_2_heads
+coin_toss.calculate_pmf_z_transform.argtypes = [
+    ctypes.POINTER(ctypes.c_double)  # double* probabilities
 ]
 
-# Parameters
-num_trials = 100000
-probabilities = (ctypes.c_double * 4)()  # Array to store probabilities for 0, 1, 2, 3 heads
-cdf = (ctypes.c_double * 4)()            # Array to store cumulative distribution function
-prob_at_least_2_heads = ctypes.c_double()  # Variable to store the probability of at least 2 heads
+# Array to store probabilities for 0, 1, 2, 3 heads
+probabilities = (ctypes.c_double * 4)()
 
-# Call the C function
-coin_toss.calculate_probabilities(num_trials, probabilities, cdf, ctypes.byref(prob_at_least_2_heads))
+# Call the C function to compute PMF
+coin_toss.calculate_pmf_z_transform(probabilities)
 
-# Convert results to Python lists using NumPy for easier handling
+# Convert results to NumPy array for easier handling
 probabilities = np.array(list(probabilities))
-cdf = np.array(list(cdf))
+
+# Compute probability of getting at least 2 heads (sum of P(2) + P(3))
+prob_at_least_2_heads = probabilities[2] + probabilities[3]
 
 # Plotting the stem plot for probabilities
 outcomes = ['0 Heads', '1 Head', '2 Heads', '3 Heads']
@@ -37,5 +33,5 @@ plt.grid(True)
 plt.show()
 
 # Print the probability of getting at least 2 heads
-print(f'Probability of getting at least 2 heads: {prob_at_least_2_heads.value:.4f}')
+print(f'Probability of getting at least 2 heads: {prob_at_least_2_heads:.4f}')
 
