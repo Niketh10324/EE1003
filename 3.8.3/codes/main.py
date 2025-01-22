@@ -15,14 +15,14 @@ coin_toss.calculate_probabilities.argtypes = [
 
 # Parameters
 num_trials = 100000
-probabilities = (ctypes.c_double * 4)()
-cdf = (ctypes.c_double * 4)()
-prob_at_least_2_heads = ctypes.c_double()
+probabilities = (ctypes.c_double * 4)()  # Array to store probabilities for 0, 1, 2, 3 heads
+cdf = (ctypes.c_double * 4)()            # Array to store cumulative distribution function
+prob_at_least_2_heads = ctypes.c_double()  # Variable to store the probability of at least 2 heads
 
 # Call the C function
 coin_toss.calculate_probabilities(num_trials, probabilities, cdf, ctypes.byref(prob_at_least_2_heads))
 
-# Convert results to Python lists
+# Convert results to Python lists using NumPy for easier handling
 probabilities = np.array(list(probabilities))
 cdf = np.array(list(cdf))
 
@@ -36,6 +36,6 @@ plt.ylabel('Probability')
 plt.grid(True)
 plt.show()
 
-# Print probability of at least 2 heads
+# Print the probability of getting at least 2 heads
 print(f'Probability of getting at least 2 heads: {prob_at_least_2_heads.value:.4f}')
 

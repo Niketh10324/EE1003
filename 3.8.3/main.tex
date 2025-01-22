@@ -49,72 +49,91 @@
 	\renewcommand{\thetable}{\theenumi}
 	\setlength{\intextsep}{10pt} % Space between text and floats
 	
-	
 	\numberwithin{equation}{enumi}
 	\numberwithin{figure}{enumi}
 	\renewcommand{\thetable}{\theenumi}
 	
-	
 \textbf{Question}:\\
-Three coins are tossed once. Find the probability of getting at least 2 heads. \\
-\textbf{Solution: }\\
-\textbf{Computational solution: }\\
+Three coins are tossed once. Find the probability of getting at least 2 heads.\\
 
-\section*{Introduction}
-This document explains the computational process of determining the probability distribution of obtaining at least 2 heads when three coins are tossed. The implementation involves two components:
+\textbf{Solution: }\\
+
+\textbf{Theoretical solution: }\\
+To calculate the probability of getting at least 2 heads:
+
 \begin{itemize}
-    \item A \textbf{C program} to perform the simulation, calculate the probabilities (PMF), and the cumulative distribution function (CDF).
-    \item A \textbf{Python} script to use the results from the C program and generate a plot of the probability.
+    \item The total number of outcomes when three coins are tossed is:
+    \[
+    2^3 = 8
+    \]
+    \item The favorable outcomes for at least 2 heads are: \(HHT, HTH, THH, HHH\). Thus, there are 4 favorable outcomes.
+    \item The probability of getting at least 2 heads is:
+    \[
+    P(\text{At least 2 heads}) = \frac{\text{Number of favorable outcomes}}{\text{Total outcomes}} = \frac{4}{8} = \frac{1}{2}.
+    \]
 \end{itemize}
 
-\section*{Definitions}
-Let the random variable \( X \) represent the number of heads when three coins are tossed. The possible values of \( X \) are:
+Thus, the probability of getting at least 2 heads is:
 \[
-X \in \{0, 1, 2, 3\}.
-\]
-We are interested in the probability:
-\[
-P(X \geq 2) = P(X = 2) + P(X = 3).
+\boxed{\frac{1}{2}}
 \]
 
-\section*{C Program Implementation}
-The C program performs the following steps:
-\begin{enumerate}
-    \item Simulate \( n \) trials of tossing three coins using the \texttt{rand()} function to generate random outcomes (head or tail).
-    \item Count the occurrences of 2 and 3 heads across all trials.
-    \item Compute the probability:
-    \[
-    P(X \geq 2) = \frac{\text{Number of occurrences of 2 or 3 heads}}{n}.
-    \]
-\end{enumerate}
+\textbf{Computational solution: }\\
 
-\section*{Python Script Implementation}
-The Python script:
-\begin{enumerate}
-    \item Loads the shared object file (\texttt{.so}) created by the C program.
-    \item Calls the \texttt{calculate\_probabilities} function in the C program, passing the number of trials (\( n \)) and retrieving the PMF.
-    \item Plots the PMF as a stem plot, showing the probabilities for each outcome (0, 1, 2, and 3 heads).
-\end{enumerate}
-
-\section*{Visualization}
-The Python script generates a stem plot of the PMF, illustrating the probabilities for each outcome:
+\section*{Z-Transform Computational Method for Coin Toss PMF}
+\subsection*{PMF for a Single Coin Toss}
+For a single coin toss, the probability mass function (PMF) is:
 \[
-P(X = 0), P(X = 1), P(X = 2), P(X = 3).
+P_X(x) =
+\begin{cases}
+p, & \text{if } x = 1 \text{ (Heads)} \\
+1-p, & \text{if } x = 0 \text{ (Tails)}
+\end{cases}
+\]
+where \(p = 0.5\) for a fair coin.
+
+\subsection*{Z-Transform Expansion}
+The Z-transform for the number of heads in \(n\) coin tosses is given by:
+\begin{align}
+H(z) = \left( p + (1-p)z \right)^n
+\end{align}
+where:
+\begin{itemize}
+    \item \(p = 0.5\), \(1-p = 0.5\),
+    \item \(n = 3\).
+\end{itemize}
+
+\subsection*{Expansion of \(H(z)\)}
+Expand the expression \(\left( p + (1-p)z \right)^n\) using the binomial theorem:
+\begin{align}
+H(z) = \sum_{k=0}^{n} \binom{n}{k} p^{n-k} (1-p)^k z^k
+\end{align}
+
+\subsection*{Result for \(n = 3\)}
+Substituting \(n = 3\) and expanding:
+\begin{align}
+H(z) = (0.5 + 0.5z)^3 = 0.125 + 0.375z + 0.375z^2 + 0.125z^3
+\end{align}
+
+The PMF values for heads are:
+\begin{align}
+P_X(0) = 0.125, \quad P_X(1) = 0.375, \quad P_X(2) = 0.375, \quad P_X(3) = 0.125
+\end{align}
+
+The probability of getting at least 2 heads is:
+\[
+P_X(2) + P_X(3) = 0.375 + 0.125 = 0.5
 \]
 
 \section*{Conclusion}
-The probability of getting at least 2 heads is computed as:
+The probability of getting at least 2 heads is:
 \[
-P(X \geq 2) = P(X = 2) + P(X = 3).
+\boxed{0.5}
 \]
-This computational process combines the efficiency of C for numerical simulation and the versatility of Python for visualization.
-
 	\begin{figure}[h!]
 		\centering
 		\includegraphics[width=\columnwidth]{/home/niketh/EE1003/3.8.3/figs/Figure_1.png}
-		\caption{Probability distribution of the number of heads when three coins are tossed}
 		\label{stemplot}
 	\end{figure}
-	
 \end{document}
 
