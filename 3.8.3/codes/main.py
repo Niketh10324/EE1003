@@ -19,20 +19,35 @@ pmfsim_y = np.array([temp.probability_at_exact_heads(i) for i in x])
 pmfsim_y[3] = pmfsim_y[0]  # Set prob(3) = prob(0)
 pmfsim_y[2] = pmfsim_y[1]  # Set prob(2) = prob(1)
 
+# Calculate CDF by taking the cumulative sum of the PMF
+cdf_y = np.cumsum(pmfsim_y)
+
 # Plot PMF
 plt.figure(figsize=(8, 6))
+
+# Plot PMF using stem plot
 markerline, stemlines, baseline = plt.stem(x, pmfsim_y, basefmt=" ", use_line_collection=True)
 plt.setp(markerline, 'markerfacecolor', 'red')
 plt.setp(stemlines, 'color', 'red')
 plt.setp(baseline, 'color', 'gray', 'linewidth', 1)
+
+# Plot CDF using a line plot
+plt.plot(x, cdf_y, marker='o', color='blue', linestyle='-', label="CDF", zorder=5)
+
+# Customize the plot
 plt.xlabel('Number of Heads')
 plt.ylabel('Probability')
-plt.title('Probability of 0, 1, 2, or 3 Heads in 3 Coin Tosses')
+plt.title('PMF and CDF of 0, 1, 2, or 3 Heads in 3 Coin Tosses')
 
-# Remove the legend
-plt.legend().set_visible(False)
+# Add legend
+plt.legend()
 
+# Enable grid
 plt.grid(True)
-plt.savefig("../figs/probability_heads_stem.png")
+
+# Save the plot as an image
+plt.savefig("../figs/probability_heads_stem_and_cdf.png")
+
+# Show the plot
 plt.show()
 
