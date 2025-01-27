@@ -3,35 +3,36 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load the shared object file
-coin_toss = ctypes.CDLL('./main.so')
+temp = ctypes.CDLL('./main.so')  # Ensure the correct shared library name
 
-# Set argument and return types for the C function
-coin_toss.calculate_pmf_z_transform.argtypes = [
-    ctypes.POINTER(ctypes.c_double)  # double* probabilities
-]
+# Define function signature for probability_at_exact_heads in C
+temp.probability_at_exact_heads.argtypes = [ctypes.c_int]  # Pass the exact number of heads
+temp.probability_at_exact_heads.restype = ctypes.c_double
 
-# Array to store probabilities for 0, 1, 2, 3 heads
-probabilities = (ctypes.c_double * 4)()
+# The number of heads we're interested in (0, 1, 2, or 3 heads)
+x = np.array([0, 1, 2, 3])
 
-# Call the C function to compute PMF
-coin_toss.calculate_pmf_z_transform(probabilities)
+# Simulate the probabilities for exactly 0, 1, 2, or 3 heads in 3 tosses
+pmfsim_y = np.array([temp.probability_at_exact_heads(i) for i in x])
 
-# Convert results to NumPy array for easier handling
-probabilities = np.array(list(probabilities))
+# Since prob(0) = prob(3) and prob(1) = prob(2), adjust the array accordingly
+pmfsim_y[3] = pmfsim_y[0]  # Set prob(3) = prob(0)
+pmfsim_y[2] = pmfsim_y[1]  # Set prob(2) = prob(1)
 
-# Compute probability of getting at least 2 heads (sum of P(2) + P(3))
-prob_at_least_2_heads = probabilities[2] + probabilities[3]
-
-# Plotting the stem plot for probabilities
-outcomes = ['0 Heads', '1 Head', '2 Heads', '3 Heads']
+# Plot PMF
 plt.figure(figsize=(8, 6))
-plt.stem(outcomes, probabilities, basefmt=" ", use_line_collection=True)
-plt.title('Probability Distribution of Heads in 3 Coin Tosses')
+markerline, stemlines, baseline = plt.stem(x, pmfsim_y, basefmt=" ", use_line_collection=True)
+plt.setp(markerline, 'markerfacecolor', 'red')
+plt.setp(stemlines, 'color', 'red')
+plt.setp(baseline, 'color', 'gray', 'linewidth', 1)
 plt.xlabel('Number of Heads')
 plt.ylabel('Probability')
-plt.grid(True)
-plt.show()
+plt.title('Probability of 0, 1, 2, or 3 Heads in 3 Coin Tosses')
 
-# Print the probability of getting at least 2 heads
-print(f'Probability of getting at least 2 heads: {prob_at_least_2_heads:.4f}')
+# Remove the legend
+plt.legend().set_visible(False)
+
+plt.grid(True)
+plt.savefig("../figs/probability_heads_stem.png")
+plt.show()
 

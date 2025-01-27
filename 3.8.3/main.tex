@@ -1,5 +1,3 @@
-\let\negmedspace\undefined
-\let\negthickspace\undefined
 \documentclass[journal]{IEEEtran}
 \usepackage[a5paper, margin=10mm, onecolumn]{geometry}
 \usepackage{lmodern} % Ensure lmodern is loaded for pdflatex
@@ -32,108 +30,125 @@
 \usepackage{longtable}
 \usepackage{multicol}
 \usepackage{calc}                                             
-\usepackage{multirow}                                         
+\usepackage{multirow}                                          
 \usepackage{hhline}                                           
 \usepackage{ifthen}                                           
 \usepackage{lscape}
+
 \begin{document}
 	
-	\bibliographystyle{IEEEtran}
-	\vspace{3cm}
-	
-	\title{11.16.3.8.3}
-	\author{EE24BTECH11047 - Niketh Prakash Achanta }
-	{\let\newpage\relax\maketitle}
-	
-	\renewcommand{\thefigure}{\theenumi}
-	\renewcommand{\thetable}{\theenumi}
-	\setlength{\intextsep}{10pt} % Space between text and floats
-	
-	\numberwithin{equation}{enumi}
-	\numberwithin{figure}{enumi}
-	\renewcommand{\thetable}{\theenumi}
-	
+\bibliographystyle{IEEEtran}
+\vspace{3cm}
+
+\title{11.16.3.8.3}
+\author{EE24BTECH11047 - Niketh Prakash Achanta}
+{\let\newpage\relax\maketitle}
+
+\renewcommand{\thefigure}{\theenumi}
+\renewcommand{\thetable}{\theenumi}
+\setlength{\intextsep}{10pt} % Space between text and floats
+
+\numberwithin{equation}{enumi}
+\numberwithin{figure}{enumi}
+\renewcommand{\thetable}{\theenumi}
+
+\section{Problem Statement}
 \textbf{Question}:\\
-Three coins are tossed once. Find the probability of getting at least 2 heads.\\
+Three coins are tossed once. Find the probability of getting at least 2 heads.
 
-\textbf{Solution: }\\
+\section{Solution}
 
-\textbf{Theoretical solution: }\\
-To calculate the probability of getting at least 2 heads:
-
-\begin{itemize}
-    \item The total number of outcomes when three coins are tossed is:
-    \[
-    2^3 = 8
-    \]
-    \item The favorable outcomes for at least 2 heads are: \(HHT, HTH, THH, HHH\). Thus, there are 4 favorable outcomes.
-    \item The probability of getting at least 2 heads is:
-    \[
-    P(\text{At least 2 heads}) = \frac{\text{Number of favorable outcomes}}{\text{Total outcomes}} = \frac{4}{8} = \frac{1}{2}.
-    \]
-\end{itemize}
-
-Thus, the probability of getting at least 2 heads is:
-\[
-\boxed{\frac{1}{2}}
-\]
-
-\textbf{Computational solution: }\\
-
-\section*{Z-Transform Computational Method for Coin Toss PMF}
-\subsection*{PMF for a Single Coin Toss}
-For a single coin toss, the probability mass function (PMF) is:
-\[
-P_X(x) =
+\subsection{Random Variables}
+Let $ X_1, X_2, X_3 $ be three independent random variables representing the outcomes of the three coin tosses:
+\begin{align}
+X_i =
 \begin{cases}
-p, & \text{if } x = 1 \text{ (Heads)} \\
-1-p, & \text{if } x = 0 \text{ (Tails)}
+1, & \text{if Head appears,} \\
+0, & \text{if Tail appears.}
 \end{cases}
-\]
-where \(p = 0.5\) for a fair coin.
-
-\subsection*{Z-Transform Expansion}
-The Z-transform for the number of heads in \(n\) coin tosses is given by:
-\begin{align}
-H(z) = \left( p + (1-p)z \right)^n
 \end{align}
-where:
-\begin{itemize}
-    \item \(p = 0.5\), \(1-p = 0.5\),
-    \item \(n = 3\).
-\end{itemize}
-
-\subsection*{Expansion of \(H(z)\)}
-Expand the expression \(\left( p + (1-p)z \right)^n\) using the binomial theorem:
+Each $X_i$ follows a Bernoulli distribution with:
 \begin{align}
-H(z) = \sum_{k=0}^{n} \binom{n}{k} p^{n-k} (1-p)^k z^k
+P_{X}(1) = p = \frac{1}{2}, \quad P_{X}(0) = q = \frac{1}{2}.
 \end{align}
 
-\subsection*{Result for \(n = 3\)}
-Substituting \(n = 3\) and expanding:
+\subsection{Probability Mass Function (PMF) Using Z-Transform}
+The PMF of $X_i$ is:
 \begin{align}
-H(z) = (0.5 + 0.5z)^3 = 0.125 + 0.375z + 0.375z^2 + 0.125z^3
+P_{X}(n) = p^{n} q^{1-n}.
+\end{align}
+The z-transform of this PMF is:
+\begin{align}
+P_{X_i}(z) = \mathbb{E}[z^{X_i}] = P_{X}(0) + P_{X}(1) z^{-1} = q + \frac{p}{z}.
+\end{align}
+For each $X_i$:
+\begin{align}
+P_{X_i}(z) = \frac{1}{2} + \frac{1}{2}z^{-1}.
 \end{align}
 
-The PMF values for heads are:
+\subsection{Distribution of $ Y = X_1 + X_2 + X_3 $}
+Using the independence property, the z-transform of $Y$ is:
 \begin{align}
-P_X(0) = 0.125, \quad P_X(1) = 0.375, \quad P_X(2) = 0.375, \quad P_X(3) = 0.125
+P_Y(z) = P_{X_1}(z) \cdot P_{X_2}(z) \cdot P_{X_3}(z).
+\end{align}
+\begin{align}
+P_Y(z) = \left(\frac{1}{2} + \frac{1}{2z}\right)^3.
+\end{align}
+Expanding, we get:
+\begin{align}
+P_Y(z) = \frac{1}{8} \left(1 + \frac{3}{z} + \frac{3}{z^2} + \frac{1}{z^3}\right).
+\end{align}
+Thus, the PMF of $Y$ is:
+\begin{align}
+P_{Y}(k) =
+\begin{cases}
+\frac{1}{8}, & k = 0, \\
+\frac{3}{8}, & k = 1, \\
+\frac{3}{8}, & k = 2, \\
+\frac{1}{8}, & k = 3.
+\end{cases}
 \end{align}
 
-The probability of getting at least 2 heads is:
-\[
-P_X(2) + P_X(3) = 0.375 + 0.125 = 0.5
-\]
+We can also express this PMF in a summation notation:
+\begin{align}
+P_Y(k) = \sum_{k=0}^{3} P_Y(k) \quad \text{where} \quad P_Y(k) \in \left\{ \frac{1}{8}, \frac{3}{8} \right\}, \quad k = 0, 1, 2, 3.
+\end{align}
 
-\section*{Conclusion}
-The probability of getting at least 2 heads is:
-\[
-\boxed{0.5}
-\]
-	\begin{figure}[h!]
-		\centering
-		\includegraphics[width=\columnwidth]{/home/niketh/EE1003/3.8.3/figs/Figure_1.png}
-		\label{stemplot}
-	\end{figure}
+\subsection{Cumulative Distribution Function (CDF)}
+The CDF of $Y$ is:
+\begin{align}
+F_Y(k) =
+\begin{cases}
+0, & k < 0, \\
+\frac{1}{8}, & 0 \leq k < 1, \\
+\frac{4}{8}, & 1 \leq k < 2, \\
+\frac{7}{8}, & 2 \leq k < 3, \\
+1, & k \geq 3.
+\end{cases}
+\end{align}
+
+\subsection{Probability of At Least Two Heads}
+To find $ P(Y \geq 2) $, we use:
+\begin{align}
+P(Y \geq 2) = 1 - P(Y < 2).
+\end{align}
+\begin{align}
+P(Y \geq 2) = 1 - \left( P(Y = 0) + P(Y = 1) \right).
+\end{align}
+\begin{align}
+P(Y \geq 2) = 1 - \left( \frac{1}{8} + \frac{3}{8} \right) = \frac{4}{8} = \frac{1}{2}.
+\end{align}
+
+\section{Conclusion}
+The probability that at least two of the three coin tosses result in heads is:
+\begin{align}
+P(Y \geq 2) = \frac{1}{2}.
+\end{align}\\
+We get the following plot.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\columnwidth]{/home/niketh/EE1003/3.8.3/figs/Figure_1.png}
+    \caption{}
+\end{figure}
 \end{document}
 

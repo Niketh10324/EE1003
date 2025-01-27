@@ -1,45 +1,45 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 
-// Function to calculate PMF using Z-transform
-void calculate_pmf_z_transform(double *pmf) {
-    int n = 3; // Number of tosses
-    double p = 0.5; // Probability of heads for a fair coin
+#define NUM_TRIALS 100000
 
-    // Compute coefficients of Z-transform: (p + (1-p)z)^n
-    // Z-transform expansion: (p + qz)^n = \sum_{k=0}^{n} C(n, k) * p^(n-k) * q^k * z^k
-    // PMF corresponds to the coefficients of z^k
+// Function to simulate a fair coin toss (returns 1 or 0 for heads or tails)
+int toss_coin() {
+    return (rand() % 2 == 0) ? 1 : 0;  // Coin shows 1 (head) or 0 (tail)
+}
 
-    for (int k = 0; k <= n; k++) {
-        // Calculate binomial coefficient C(n, k)
-        double binomial_coefficient = 1;
-        for (int i = 0; i < k; i++) {
-            binomial_coefficient *= (n - i) / (double)(i + 1);
+// Function to calculate the exact probability of getting exactly n heads in 3 tosses
+double probability_at_exact_heads(int target_heads) {
+    int count = 0;
+    for (int i = 0; i < NUM_TRIALS; i++) {
+        int heads = 0;
+        for (int j = 0; j < 3; j++) {  // Three tosses
+            heads += toss_coin();  // Count heads (1 for head, 0 for tail)
         }
-
-        // Compute PMF value for k heads using Z-transform
-        pmf[k] = binomial_coefficient * pow(p, k) * pow(1 - p, n - k);
+        if (heads == target_heads) {
+            count++;
+        }
     }
+    return (double)count / NUM_TRIALS;
 }
 
-// Function to calculate the probability of getting at least 2 heads
-double probability_at_least_two_heads() {
-    int n = 3; // Number of tosses
-    double pmf[n + 1];
-
-    // Calculate PMF using Z-transform
-    calculate_pmf_z_transform(pmf);
-
-    // Sum probabilities for k >= 2 (2 or 3 heads)
-    double probability = pmf[2] + pmf[3];
-    return probability;
-}
-
-// Main function
 int main() {
-    double result = probability_at_least_two_heads();
-    printf("Probability of getting at least two heads: %.6f\n", result);
+    srand(time(NULL));  // Seed the random number generator
+
+    int target_heads;
+    printf("Enter the target number of heads (0 to 3): ");
+    scanf("%d", &target_heads);
+
+    // Validate input
+    if (target_heads < 0 || target_heads > 3) {
+        printf("Invalid number of heads. Please enter a value between 0 and 3.\n");
+        return 1;
+    }
+
+    double prob = probability_at_exact_heads(target_heads);
+    printf("The probability of getting exactly %d heads is: %lf\n", target_heads, prob);
     return 0;
 }
 
