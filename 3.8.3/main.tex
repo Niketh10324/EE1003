@@ -36,7 +36,7 @@
 \usepackage{lscape}
 
 \begin{document}
-	
+
 \bibliographystyle{IEEEtran}
 \vspace{3cm}
 
@@ -59,7 +59,7 @@ Three coins are tossed once. Find the probability of getting at least 2 heads.
 \section{Solution}
 
 \subsection{Random Variables}
-Let $ X_1, X_2, X_3 $ be three independent random variables representing the outcomes of the three coin tosses:
+Let $ X_1, X_2, X_3 $ be three independent Bernoulli random variables:
 \begin{align}
 X_i =
 \begin{cases}
@@ -69,53 +69,38 @@ X_i =
 \end{align}
 Each $X_i$ follows a Bernoulli distribution with:
 \begin{align}
-P_{X}(1) = p = \frac{1}{2}, \quad P_{X}(0) = q = \frac{1}{2}.
+P_{X}(1) = p = \frac{1}{2}, \quad P_{X}(0) = 1 - p.
 \end{align}
 
-\subsection{Probability Mass Function (PMF) Using Z-Transform}
-The PMF of $X_i$ is:
+\subsection{Moment-Generating Function (MGF) Using Z-Transform}
+The moment-generating function (MGF) for $X_i$ is given by:
 \begin{align}
-P_{X}(n) = p^{n} q^{1-n}.
-\end{align}
-The z-transform of this PMF is:
-\begin{align}
-P_{X_i}(z) = \mathbb{E}[z^{X_i}] = P_{X}(0) + P_{X}(1) z^{-1} = q + \frac{p}{z}.
-\end{align}
-For each $X_i$:
-\begin{align}
-P_{X_i}(z) = \frac{1}{2} + \frac{1}{2}z^{-1}.
+M_{X_i}\brak{z} = \sum_{k=-\infty}^{\infty} P_{X_i}\brak{k} z^{-k} = (1 - p) + pz^{-1}.
 \end{align}
 
-\subsection{Distribution of $ Y = X_1 + X_2 + X_3 $}
-Using the independence property, the z-transform of $Y$ is:
+Using independence, the MGF of $Y = X_1 + X_2 + X_3$ is:
 \begin{align}
-P_Y(z) = P_{X_1}(z) \cdot P_{X_2}(z) \cdot P_{X_3}(z).
+M_Y\brak{z} = M_{X_1}\brak{z} M_{X_2}\brak{z} M_{X_3}\brak{z} = \left((1 - p) + pz^{-1}\right)^3.
 \end{align}
+Expanding using the binomial theorem:
 \begin{align}
-P_Y(z) = \left(\frac{1}{2} + \frac{1}{2z}\right)^3.
+M_Y\brak{z} = \sum_{k=0}^{3} \binom{3}{k} (1 - p)^{3-k} p^k z^{-k}.
 \end{align}
-Expanding, we get:
+Applying the inverse Z-transform, the probability mass function (PMF) is:
 \begin{align}
-P_Y(z) = \frac{1}{8} \left(1 + \frac{3}{z} + \frac{3}{z^2} + \frac{1}{z^3}\right).
+P_Y(k) = \binom{3}{k} (1 - p)^{3-k} p^k, \quad k = 0, 1, 2, 3.
 \end{align}
-Thus, the PMF of $Y$ is:
+Substituting $p = \frac{1}{2}$:
 \begin{align}
-P_{Y}(k) =
-\begin{cases}
-\frac{1}{8}, & k = 0, \\
-\frac{3}{8}, & k = 1, \\
-\frac{3}{8}, & k = 2, \\
-\frac{1}{8}, & k = 3.
-\end{cases}
-\end{align}
-
-We can also express this PMF in a summation notation:
-\begin{align}
-P_Y(k) = \sum_{k=0}^{3} P_Y(k) \quad \text{where} \quad P_Y(k) \in \left\{ \frac{1}{8}, \frac{3}{8} \right\}, \quad k = 0, 1, 2, 3.
+P_Y(k) = \binom{3}{k} \left(\frac{1}{2}\right)^3.
 \end{align}
 
 \subsection{Cumulative Distribution Function (CDF)}
-The CDF of $Y$ is:
+The cumulative distribution function (CDF) is given by:
+\begin{align}
+F_Y(k) = \sum_{j=-\infty}^{k} P_Y(j).
+\end{align}
+Substituting values:
 \begin{align}
 F_Y(k) =
 \begin{cases}
@@ -128,24 +113,20 @@ F_Y(k) =
 \end{align}
 
 \subsection{Probability of At Least Two Heads}
-To get the probability of a particular event (Say 1 head), we take the coefficient of the corresponding power of z.
-To find $ P(Y \geq 2) $, we use the coefficients of $z^{-2}$ and $z^{-3}$.\\
-$\therefore$ Probability of At Least Two Heads = $\frac{1}{8} + \frac{3}{8} = \frac{1}{2}$
-\section{Conclusion}
-The probability that at least two of the three coin tosses result in heads is:
 \begin{align}
-P(Y \geq 2) = \frac{1}{2}.
-\end{align}\\
-We get the following plot.
+P(Y \geq 2) = 1 - F_Y(1) = 1 - \frac{4}{8} = \frac{1}{2}.
+\end{align}
+
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\columnwidth]{/home/niketh/EE1003/3.8.3/figs/pmf.png}
-    \caption{}
+    \caption{PMF}
 \end{figure}
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\columnwidth]{/home/niketh/EE1003/3.8.3/figs/cdf.png}
-    \caption{}
+    \caption{CDF}
 \end{figure}
+
 \end{document}
 
